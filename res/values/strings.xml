@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, PlayerActivity!</string>
+    <string name="app_name">Dd-player</string>
+    <string name="play">Play</string>
+    <string name="exit">exit</string>
+    <string name="copyright_label">Copyright</string>
+
+</resources>

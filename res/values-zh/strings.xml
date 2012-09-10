@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, PlayerActivity!</string>
+    <string name="app_name">陶陶点读机</string>
+    <string name="play">播放</string>
+    <string name="exit">退出</string>
+    <string name="copyright_label">软件说明</string>
+
+</resources>
