@@ -1,10 +1,7 @@
 package com.surelution;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.util.List;
 import java.util.Stack;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,7 +9,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,7 +21,6 @@ public class DdPlayerActivity extends Activity {
 
 	private Fragment fragment;
 
-	private Stack<Fragment> stack = new Stack<Fragment>();
 	private Fragment currFragment;
 
 	private String currPlayerPath;
@@ -41,7 +36,9 @@ public class DdPlayerActivity extends Activity {
 		setContentView(R.layout.main);
 
 		try {
-			parseXml();
+			String xmlPath = "/sdcard/letaotao/fragment.xml";
+			List<Fragment> list = Fragment.load(xmlPath);
+			fragment = list.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -154,46 +151,46 @@ public class DdPlayerActivity extends Activity {
 		timer.start();
 	}
 
-	private void parseXml() throws Exception {
-		String xmlPath = "/sdcard/letaotao/fragment.xml";
-		InputStream in = new FileInputStream(xmlPath);
-		XmlPullParser parser = Xml.newPullParser();
-		parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-		parser.setInput(in, null);
-		int event = parser.next();
-		while (event != XmlPullParser.END_DOCUMENT) {
-			if (event == XmlPullParser.START_TAG) {
-//				String name = parser.getName();
-				String path = parser.getAttributeValue(null, "path");
-				String description = parser.getAttributeValue(null,
-						"description");
-				String title = parser.getAttributeValue(null, "title");
-				String sStart = parser.getAttributeValue(null, "start");
-				String sEnd = parser.getAttributeValue(null, "end");
-				Integer start = null;
-				Integer end = null;
-				if (sStart != null) {
-					start = Integer.parseInt(sStart);
-				}
-				if (sEnd != null) {
-					end = Integer.parseInt(sEnd);
-				}
-				Fragment fragment = 
-						new Fragment(title, path, description, start, end);
-				stack.push(fragment);
-			} else if (event == XmlPullParser.END_TAG) {
-				fragment = stack.pop();
-				if (!stack.isEmpty()) {
-					Fragment top = stack.peek();
-					if (top != null) {
-						top.addChild(fragment);
-					}
-				}
-			}
-			event = parser.next();
-		}
-
-	}
+//	private void parseXml() throws Exception {
+//		String xmlPath = "/sdcard/letaotao/fragment.xml";
+//		InputStream in = new FileInputStream(xmlPath);
+//		XmlPullParser parser = Xml.newPullParser();
+//		parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+//		parser.setInput(in, null);
+//		int event = parser.next();
+//		while (event != XmlPullParser.END_DOCUMENT) {
+//			if (event == XmlPullParser.START_TAG) {
+////				String name = parser.getName();
+//				String path = parser.getAttributeValue(null, "path");
+//				String description = parser.getAttributeValue(null,
+//						"description");
+//				String title = parser.getAttributeValue(null, "title");
+//				String sStart = parser.getAttributeValue(null, "start");
+//				String sEnd = parser.getAttributeValue(null, "end");
+//				Integer start = null;
+//				Integer end = null;
+//				if (sStart != null) {
+//					start = Integer.parseInt(sStart);
+//				}
+//				if (sEnd != null) {
+//					end = Integer.parseInt(sEnd);
+//				}
+//				Fragment fragment = 
+//						new Fragment(title, path, description, start, end);
+//				stack.push(fragment);
+//			} else if (event == XmlPullParser.END_TAG) {
+//				fragment = stack.pop();
+//				if (!stack.isEmpty()) {
+//					Fragment top = stack.peek();
+//					if (top != null) {
+//						top.addChild(fragment);
+//					}
+//				}
+//			}
+//			event = parser.next();
+//		}
+//
+//	}
 
 	private MediaPlayer getPlayer(String path) {
 		if (!path.equals(currPlayerPath)) {
