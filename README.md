@@ -1,1 +1,1 @@
-something
+一个超级初级的Android练习项目，不要看啦
